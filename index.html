@@ -21,7 +21,8 @@
                 <tr>
                     <th>Contest Name</th>
                     <th>Platform</th>
-                    <th>Start Time</th>
+                    <th>Date</th>
+                    <th>Time Remaining</th>
                     <th>Register</th>
                 </tr>
             </thead>
@@ -39,9 +40,9 @@ function toggleDarkMode() {
     const body = document.body;
     body.classList.toggle('dark-mode');
     if (body.classList.contains('dark-mode')) {
-        modeLabel.textContent = ' Dark Mode';
+        modeLabel.textContent = 'Dark Mode';
     } else {
-        modeLabel.textContent = ' Light Mode';
+        modeLabel.textContent = 'Light Mode';
     }
 }
 
@@ -67,30 +68,34 @@ toggleSwitch.addEventListener('change', toggleDarkMode);
         }
 
         function addContestRow(name, platform, startTime, url) {
-            const tableBody = document.getElementById('contest-table-body');
-            const row = document.createElement('tr');
-            if(platform=="Codeforces"){
+    const tableBody = document.getElementById('contest-table-body');
+    const row = document.createElement('tr');
+    const currentTime = new Date().getTime() / 1000;
+    const timeRemaining = startTime - currentTime;
+    const hoursRemaining = Math.floor(timeRemaining / 3600);
+    const minutesRemaining = Math.floor((timeRemaining % 3600) / 60);
+    const timeRemainingString = `${hoursRemaining}h ${minutesRemaining}m`;
 
-                row.innerHTML = `
-                <td>${name}</td>
-                <td>${platform}</td>
-                <td>${formatDate(startTime)}</td>
-                
-                <td><a href="${url}"  class="register-link"target="_blank">Register</a></td>
-                `;
-                }
-                else{
-                    url = `https://www.codechef.com/contests`
-                    row.innerHTML = `
-                    <td>${name}</td>
-                    <td>${platform}</td>
-                    <td>${formatDate(startTime)}</td>
-                    <td><a href="${url}" class="register-link"  target="_blank">See</a></td>
-                `
-
-                }
-            tableBody.appendChild(row);
-        }
+    if (platform == "Codeforces") {
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${platform}</td>
+            <td>${formatDate(startTime)}</td>
+            <td>${timeRemainingString}</td>
+            <td><a href="${url}"  class="register-link" target="_blank">Register</a></td>
+        `;
+    } else {
+        url = `https://www.codechef.com/contests`
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${platform}</td>
+            <td>${formatDate(startTime)}</td>
+            <td>${timeRemainingString}</td>
+            <td><a href="${url}" class="register-link"  target="_blank">See</a></td>
+        `;
+    }
+    tableBody.appendChild(row);
+}
 
         function sortAndDisplayContests(contests) {
             contests.sort((a, b) => a.startTime - b.startTime);
