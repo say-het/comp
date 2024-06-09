@@ -1,0 +1,2 @@
+fetch('https://codeforces.com/api/contest.list').then(res=>res.json()).then(data=>console.log(data))
+fetch('https://www.codechef.com/api/list/contests/all').then(res=>res.json()).then(data=>console.log(data))
