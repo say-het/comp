@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="toggle-container">
+        <label class="switch">
+            <input id="toggle" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+        <span id="mode-label">Light Mode</span>
+    </div>
+    
     <div class="table-container">
         <table class="product-table" id="contest-table">
             <thead>
@@ -24,6 +32,21 @@
     </div>
 
     <script>
+        const toggleSwitch = document.getElementById('toggle');
+const modeLabel = document.getElementById('mode-label');
+
+function toggleDarkMode() {
+    const body = document.body;
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+        modeLabel.textContent = 'Dark Mode';
+    } else {
+        modeLabel.textContent = 'Light Mode';
+    }
+}
+
+toggleSwitch.addEventListener('change', toggleDarkMode);
+
         function getOrdinalSuffix(day) {
             if (day > 3 && day < 21) return 'th'; // Covers 11th to 20th
             switch (day % 10) {
